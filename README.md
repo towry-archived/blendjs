@@ -30,9 +30,16 @@ define('d', function (e) {
 
 The output is 
 
->>> 5
+> 5
 
 *Note*: you can define the modules in any order.
+
+## Install
+
+You can install it via package manager
+
+bower: `bower install blendjs`
+npm: `npm install blendjs`
 
 ## License
 
