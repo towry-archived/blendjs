@@ -1,0 +1,23 @@
+{
+  "name": "blendjs",
+  "version": "0.1.0",
+  "authors": [
+    "towry <tovvry@gmail.com>"
+  ],
+  "description": "A lightweight AMD style module loader",
+  "main": "blend.min.js",
+  "keywords": [
+    "amd",
+    "module",
+    "loader"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/towry/blendjs",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

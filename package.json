@@ -1,0 +1,24 @@
+{
+  "name": "blendjs",
+  "version": "0.1.0",
+  "description": "A lightweight asynchronous module definition(AMD) library",
+  "main": "blend.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/towry/blendjs.git"
+  },
+  "keywords": [
+    "amd",
+    "module",
+    "loader"
+  ],
+  "author": "Towry Wang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/towry/blendjs/issues"
+  },
+  "homepage": "https://github.com/towry/blendjs"
+}
