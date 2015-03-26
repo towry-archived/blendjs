@@ -22,6 +22,43 @@
       return -1;
     }
   }
+
+  // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+  if (!Object.keys) {
+    Object.keys = (function () {
+      var hasOwnProperty = Object.prototype.hasOwnProperty;
+      var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
+      var dontEnums = [
+        'toString',
+        'toLocaleString',
+        'valueOf',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'constructor'
+      ];
+      var dontEnumsLength = dontEnums.length;
+
+      return function (obj) {
+        if (typeof obj !== 'object' && typeof obj !== 'function' || obj === null) 
+          throw new TypeError('Object.keys called on non-object');
+
+        var result = [];
+
+        for (var p in obj) {
+          if (hasOwnProperty.call(obj, p)) result.push(p);
+        }
+
+        if (hasDontEnumBug) {
+          for (var i = 0; i < dontEnumsLength; i++) {
+            if (hasOwnProperty.call(obj, dontEnums[i])) result.push(dontEnums[i]);
+          }
+        }
+
+        return result;
+      }
+    }());
+  }
 	
   window.define = window.define || define;
 
@@ -31,11 +68,16 @@
   var modules = {};
   var pending = {};
   var exported;
+  var pender = null;
 
   caches['requires'] = requires;
   caches['exports'] = exports;
 
   function define (id, deps, fac) {
+
+    if (pender !== null) {
+      clearTimeout(pender);
+    }
 
     if (typeof deps === 'function') {
       fac = deps;
@@ -46,7 +88,9 @@
       var _id = id;
       return function () {
         var args = Array.prototype.slice.call(arguments);
-        args.push(exports);
+        if (args.length === 0) {
+          args.push(exports);
+        }
         var o = fac.apply(this, args);
         if (typeof o === 'undefined') {
           o = exported;
@@ -83,6 +127,15 @@
       fulfilled: [],
       factory: _fac
     }
+
+    pender = setTimeout(function () {
+      if (!pending) return;
+      if (!Object.keys(pending).length) return;
+
+      var unfulfilled = Object.keys(pending);
+
+      throw new Error("Those modules are not fulfilled: " + unfulfilled.join(', '));
+    }, 1);
   }
 
   function satisfy (deps) {
@@ -126,6 +179,7 @@
         }
       }
       pending[id] = null;
+      delete pending[id];
     }
   }
 
