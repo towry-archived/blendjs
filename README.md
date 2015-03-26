@@ -39,6 +39,7 @@ The output is
 You can install it via package manager
 
 bower: `bower install blendjs`
+
 npm: `npm install blendjs`
 
 ## License
