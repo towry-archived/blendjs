@@ -98,6 +98,8 @@
         }
 
         fulfill(_id, o);
+
+        return o;
       }
     }.call(this);
 
