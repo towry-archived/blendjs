@@ -129,7 +129,8 @@
     modules[id] = {
       deps: deps,
       fulfilled: [],
-      factory: _fac
+      factory: _fac,
+      unfulfilled: unfulfilled
     }
 
     pender = setTimeout(function () {
