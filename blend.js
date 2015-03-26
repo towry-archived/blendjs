@@ -77,6 +77,7 @@
 
     if (pender !== null) {
       clearTimeout(pender);
+      pender = null;
     }
 
     if (typeof deps === 'function') {
@@ -116,6 +117,7 @@
     }
 
     var unfulfilled = 0;
+    var fulfilled = [];
     for (var i = 0, ii = deps.length; i < ii; i++) {
       if (!(deps[i] in caches)) {
         unfulfilled++;
@@ -123,12 +125,14 @@
         pending[deps[i]].push({
           id: id
         })
+      } else {
+        fulfilled[i] = caches[deps[i]];
       }
     }
 
     modules[id] = {
       deps: deps,
-      fulfilled: [],
+      fulfilled: fulfilled,
       factory: _fac,
       unfulfilled: unfulfilled
     }
