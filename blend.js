@@ -115,8 +115,10 @@
       return;
     }
 
+    var unfulfilled = 0;
     for (var i = 0, ii = deps.length; i < ii; i++) {
       if (!(deps[i] in caches)) {
+        unfulfilled++;
         pending[deps[i]] = pending[deps[i]] || [];
         pending[deps[i]].push({
           id: id
@@ -134,7 +136,7 @@
       if (!pending) return;
       if (!Object.keys(pending).length) return;
 
-      var unfulfilled = Object.keys(pending);
+      unfulfilled = Object.keys(pending);
 
       throw new Error("Those modules are not fulfilled: " + unfulfilled.join(', '));
     }, 1);
@@ -175,8 +177,9 @@
         if (p == -1) continue;
 
         q.fulfilled[p] = o;
+        q.unfulfilled--;
 
-        if (q.fulfilled.length === q.deps.length) {
+        if (q.fulfilled.length === q.deps.length && q.unfulfilled === 0) {
           caches[n.id] = q.factory.apply(this, q.fulfilled);
         }
       }
